@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { principles, profile, skills } from '../content/data'
-import { Counter, Label, Page, Reveal, SplitReveal, ease } from '../components/anim'
+import { Counter, Label, Page, Reveal, SplitReveal, TiltCard, ease } from '../components/anim'
 
 export default function About() {
   return (
@@ -35,8 +35,8 @@ export default function About() {
           ))}
           <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line pt-0">
             {profile.stats.map((s) => (
-              <div key={s.label} className="bg-bg p-6">
-                <p className="font-display text-6xl text-accent"><Counter to={s.value} /></p>
+              <div key={s.label} className="group bg-bg p-6 transition-colors hover:bg-panel">
+                <p className="font-display text-6xl text-accent transition-transform duration-500 group-hover:-translate-y-1"><Counter to={s.value} /></p>
                 <p className="mt-1 font-mono text-xs uppercase text-mute">{s.label}</p>
               </div>
             ))}
@@ -50,7 +50,7 @@ export default function About() {
         <div className="mt-12 grid gap-6 md:grid-cols-2">
           {skills.map((g, gi) => (
             <Reveal key={g.group} delay={gi * 0.08}>
-              <div className="rounded-2xl border border-line p-8">
+              <TiltCard className="rounded-2xl border border-line bg-panel p-8 transition-colors hover:border-accent/50">
                 <h3 className="font-mono text-xs uppercase tracking-widest text-accent">{g.group}</h3>
                 <ul className="mt-6 space-y-4">
                   {g.items.map(([name, lvl], i) => (
@@ -58,7 +58,7 @@ export default function About() {
                       <div className="flex justify-between text-sm"><span>{name}</span><span className="font-mono text-mute">{lvl}</span></div>
                       <div className="mt-2 h-px bg-line">
                         <motion.div
-                          className="h-px origin-left bg-ink"
+                          className="h-px origin-left bg-gradient-to-r from-accent to-ink"
                           initial={{ scaleX: 0 }}
                           whileInView={{ scaleX: lvl / 100 }}
                           viewport={{ once: true }}
@@ -68,7 +68,7 @@ export default function About() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
@@ -86,6 +86,62 @@ export default function About() {
             </Reveal>
           ))}
         </ol>
+      </section>
+      <section className="px-6 py-24 md:px-10">
+        <Label>Journey</Label>
+        <h2 className="mt-3 font-display text-5xl md:text-7xl"><SplitReveal text="How I got here" /></h2>
+        <div className="relative mt-14 pl-8 md:pl-12">
+          <motion.div aria-hidden className="absolute left-0 top-0 w-px origin-top bg-gradient-to-b from-accent via-line to-transparent" style={{ height: '100%' }} initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }} viewport={{ once: true }} transition={{ duration: 1.6, ease }} />
+          {[
+            { y: '2019', t: 'First production API', d: 'Shipped a Node.js booking backend for a local travel agency. Learned what 3am pages feel like.' },
+            { y: '2021', t: 'Went deep on Go', d: 'Rebuilt a payments service in Go, cutting infra cost by 60% and p99 latency by 4x.' },
+            { y: '2023', t: 'LLMs in production', d: 'Built RAG pipelines with evals, guardrails and cost dashboards for two SaaS products.' },
+            { y: '2024', t: 'Rust for the hot path', d: 'Wrote a Rust embedding and tokenizer service handling 12k req/s on two small boxes.' },
+            { y: 'Now', t: 'Agents that behave', d: 'Designing tool-using AI agents with tracing, replay and strict latency budgets.' },
+          ].map((m, i) => (
+            <Reveal key={m.y} delay={i * 0.08} className="group relative pb-12 last:pb-0">
+              <span className="absolute -left-8 top-2 h-3 w-3 -translate-x-1/2 rounded-full border border-accent bg-bg transition-all duration-300 group-hover:scale-150 group-hover:bg-accent md:-left-12" />
+              <p className="font-mono text-xs uppercase tracking-widest text-accent">{m.y}</p>
+              <h3 className="mt-2 font-display text-3xl md:text-4xl">{m.t}</h3>
+              <p className="mt-2 max-w-2xl text-lg text-mute">{m.d}</p>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section className="grid gap-6 px-6 py-24 md:grid-cols-3 md:px-10">
+        {[
+          { k: 'Currently building', v: 'An open-source eval harness for LLM agents', e: '🛠️' },
+          { k: 'Currently reading', v: 'Designing Data-Intensive Applications (again)', e: '📚' },
+          { k: 'Currently learning', v: 'CUDA kernels and inference optimization', e: '⚡' },
+        ].map((c, i) => (
+          <Reveal key={c.k} delay={i * 0.1}>
+            <TiltCard className="h-full rounded-3xl border border-line bg-panel p-8">
+              <motion.span className="inline-block text-4xl" animate={{ y: [0, -6, 0] }} transition={{ duration: 3, repeat: Infinity, delay: i * 0.4 }}>{c.e}</motion.span>
+              <p className="mt-8 font-mono text-xs uppercase tracking-widest text-mute">{c.k}</p>
+              <p className="mt-2 font-display text-2xl leading-snug">{c.v}</p>
+            </TiltCard>
+          </Reveal>
+        ))}
+      </section>
+
+      <section className="px-6 py-24 md:px-10">
+        <Label>Beyond code</Label>
+        <div className="mt-8 flex flex-wrap gap-3">
+          {['☕ Pour-over nerd', '🏔️ Himalayan trekker', '♟️ 1800 on Lichess', '🎧 Lo-fi while debugging', '📸 Street photography', '🐈 Cat person', '🚴 Weekend cyclist', '🍜 Momo critic'].map((t, i) => (
+            <motion.span
+              key={t}
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, ease, delay: i * 0.05 }}
+              whileHover={{ scale: 1.08, rotate: i % 2 ? 2 : -2 }}
+              className="rounded-full border border-line bg-panel px-5 py-3 text-lg transition-colors hover:border-accent"
+            >
+              {t}
+            </motion.span>
+          ))}
+        </div>
       </section>
     </Page>
   )

@@ -36,6 +36,7 @@ export default function Resume() {
         <motion.article
           initial={{ opacity: 0, y: 60, rotateX: 12 }}
           animate={{ opacity: 1, y: 0, rotateX: 0 }}
+          whileHover={{ y: -6 }}
           transition={{ duration: 1, ease }}
           style={{ transformPerspective: 1200 }}
           className="resume-paper mx-auto min-h-[297mm] max-w-[210mm] bg-[#fbfaf7] p-[14mm] font-sans text-[13px] leading-relaxed text-neutral-800 shadow-[0_40px_120px_-30px_rgba(255,91,31,0.35)] print:min-h-0 print:max-w-none print:p-[12mm] print:shadow-none"
@@ -49,6 +50,7 @@ export default function Resume() {
               </div>
               <ul className="space-y-0.5 text-right font-mono text-[11px] text-neutral-600">
                 <li>{profile.email}</li>
+                <li>{profile.phone}</li>
                 <li>{profile.location}</li>
                 {profile.socials.map((s) => <li key={s.label}>{s.url.replace('https://', '')}</li>)}
               </ul>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { ArrowUpRight, Cpu, Database, GitBranch, Sparkles, Zap } from 'lucide-react'
 import { SiGo, SiPython, SiRust, SiTypescript, SiNextdotjs, SiNodedotjs, SiPostgresql, SiRedis, SiDocker, SiKubernetes } from 'react-icons/si'
 import { profile } from '../content/data'
-import { Label, Marquee, Reveal, SplitReveal, ease } from './anim'
+import { Label, Reveal, SplitReveal, ease } from './anim'
 import { useClock } from './Nav'
 
 // ---------- placeholder content (move to data.ts when real) ----------
@@ -230,7 +230,6 @@ export function Writing() {
 export function BigCTA() {
   return (
     <section className="relative overflow-hidden px-6 py-40 text-center md:px-10">
-      <Marquee items={['Go', 'Rust', 'Python', 'TypeScript', 'LLMs', 'RAG', 'Agents']} speed={50} className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 font-display text-[18vw] italic leading-none text-transparent [-webkit-text-stroke:1px_#1a1a1a]" />
       <div className="relative">
         <Label>(07) Next step</Label>
         <h2 className="mx-auto mt-6 max-w-5xl font-display text-6xl leading-[0.95] md:text-9xl">

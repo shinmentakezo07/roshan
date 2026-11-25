@@ -113,3 +113,28 @@ export function Page({ children }: { children: ReactNode }) {
 export function Label({ children }: { children: ReactNode }) {
   return <p className="font-mono text-xs uppercase tracking-[0.2em] text-mute">{children}</p>
 }
+
+/** 3D tilt + cursor spotlight card. */
+export function TiltCard({ children, className = '' }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const rx = useMotionValue(0), ry = useMotionValue(0)
+  const srx = useSpring(rx, { stiffness: 200, damping: 20 }), sry = useSpring(ry, { stiffness: 200, damping: 20 })
+  const [spot, setSpot] = useState({ x: 50, y: 50, on: false })
+  return (
+    <motion.div
+      ref={ref}
+      style={{ rotateX: srx, rotateY: sry, transformPerspective: 900 }}
+      onMouseMove={(e) => {
+        const r = ref.current!.getBoundingClientRect()
+        const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height
+        ry.set((px - 0.5) * 10); rx.set((0.5 - py) * 10)
+        setSpot({ x: px * 100, y: py * 100, on: true })
+      }}
+      onMouseLeave={() => { rx.set(0); ry.set(0); setSpot((s) => ({ ...s, on: false })) }}
+      className={`relative overflow-hidden ${className}`}
+    >
+      <div aria-hidden className="pointer-events-none absolute inset-0 transition-opacity duration-300" style={{ opacity: spot.on ? 1 : 0, background: `radial-gradient(400px circle at ${spot.x}% ${spot.y}%, rgba(255,91,31,0.14), transparent 60%)` }} />
+      <div className="relative">{children}</div>
+    </motion.div>
+  )
+}

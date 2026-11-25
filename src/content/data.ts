@@ -7,7 +7,8 @@ export const profile = {
   tagline: 'I build fast backends and LLM systems that survive production.',
   location: 'Kathmandu, Nepal',
   timezone: 'Asia/Kathmandu',
-  email: 'roshan@example.com',
+  email: 'hello@roshankhatru.dev',
+  phone: '+977 980-123-4567',
   available: true,
   resume: '/resume',
   about: [
@@ -24,6 +25,8 @@ export const profile = {
     { label: 'GitHub', url: 'https://github.com/roshan' },
     { label: 'LinkedIn', url: 'https://linkedin.com/in/roshan' },
     { label: 'X / Twitter', url: 'https://x.com/roshan' },
+    { label: 'Dribbble', url: 'https://dribbble.com/roshan' },
+    { label: 'Dev.to', url: 'https://dev.to/roshan' },
   ],
 }
 

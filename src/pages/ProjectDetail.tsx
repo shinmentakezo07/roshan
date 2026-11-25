@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import { FaGithub } from 'react-icons/fa'
 import { projects } from '../content/data'
-import { Label, Page, Reveal, SplitReveal } from '../components/anim'
+import { Label, Page, Reveal, SplitReveal, TiltCard, ease } from '../components/anim'
 import NotFound from './NotFound'
 
 export default function ProjectDetail() {
@@ -48,18 +48,54 @@ export default function ProjectDetail() {
         <Reveal delay={0.1}><Label>The solution</Label><p className="mt-4 text-lg leading-relaxed text-mute">{p.solution}</p></Reveal>
       </section>
 
+      <section className="px-6 pb-24 md:px-10">
+        <Label>Architecture</Label>
+        <h2 className="mt-3 font-display text-4xl md:text-6xl"><SplitReveal text="How it flows" /></h2>
+        <div className="mt-12 flex flex-col items-stretch gap-4 md:flex-row md:items-center">
+          {['Client', 'API Gateway', 'Service layer', 'Queue / Workers', 'Data + Vector DB'].map((n, i, a) => (
+            <div key={n} className="flex flex-1 flex-col items-center gap-4 md:flex-row">
+              <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, ease, delay: i * 0.12 }}
+                className="w-full rounded-2xl border border-line bg-panel px-5 py-6 text-center transition-colors hover:border-current" style={{ color: p.color }}>
+                <p className="font-mono text-[10px] uppercase tracking-widest text-mute">0{i + 1}</p>
+                <p className="mt-1 text-lg text-ink">{n}</p>
+              </motion.div>
+              {i < a.length - 1 && (
+                <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.12 + 0.3 }} className="shrink-0 rotate-90 text-2xl md:rotate-0" style={{ color: p.color }}>→</motion.span>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="px-6 pb-24 md:px-10">
+        <Label>Timeline</Label>
+        <div className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-4">
+          {[['Week 1', 'Discovery & load profiling'], ['Week 2–3', 'Core services + data model'], ['Week 4–5', 'LLM layer, evals, guardrails'], ['Week 6', 'Hardening, docs, launch']].map(([w, d], i) => (
+            <Reveal key={w} delay={i * 0.08} className="group bg-bg p-6 transition-colors hover:bg-panel">
+              <p className="font-mono text-xs" style={{ color: p.color }}>{w}</p>
+              <p className="mt-6 text-lg">{d}</p>
+              <div className="mt-6 h-px w-full bg-line"><motion.div className="h-px origin-left" style={{ background: p.color }} initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 1, ease, delay: 0.2 + i * 0.15 }} /></div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       <section className="px-6 pb-20 md:px-10">
         <Label>Results</Label>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {p.results.map((r, i) => (
             <Reveal key={r} delay={i * 0.1}>
-              <div className="h-full rounded-2xl border border-line p-8">
+              <TiltCard className="h-full rounded-2xl border border-line bg-panel p-8">
                 <span className="font-mono text-xs" style={{ color: p.color }}>0{i + 1}</span>
                 <p className="mt-10 font-display text-3xl">{r}</p>
-              </div>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
+        <Reveal className="mt-16 rounded-3xl border border-line p-8 md:p-12">
+          <p className="font-display text-3xl leading-snug md:text-4xl"><span style={{ color: p.color }}>“</span>Clear thinking, fast shipping, and the system just kept working after launch.<span style={{ color: p.color }}>”</span></p>
+          <p className="mt-6 font-mono text-xs uppercase tracking-widest text-mute">— Product lead, client team</p>
+        </Reveal>
         <div className="mt-10 flex gap-4">
           <a href={p.link} className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-bg transition-colors hover:bg-accent">Live site <ArrowUpRight size={16} /></a>
           <a href={p.repo} className="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 transition-colors hover:border-accent hover:text-accent"><FaGithub /> Source</a>
