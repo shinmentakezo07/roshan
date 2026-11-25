@@ -1,8 +1,8 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { ArrowDownRight, ArrowUpRight, Download } from 'lucide-react'
-import { SiGo, SiPython, SiRust, SiTypescript, SiNextdotjs, SiNodedotjs } from 'react-icons/si'
+import { ArrowDown, ArrowUpRight, Download } from 'lucide-react'
+import { SiGo, SiPython, SiRust, SiTypescript } from 'react-icons/si'
 import { profile } from '../content/data'
 import { Counter, Magnetic, SplitReveal, ease } from './anim'
 import { useClock } from './Nav'
@@ -10,33 +10,23 @@ import { useClock } from './Nav'
 const NeuralBg = lazy(() => import('./NeuralBg'))
 
 const roles = ['Backend Engineer', 'LLM / AI Engineer', 'Systems Builder', 'Full-Stack Dev']
-const tech = [
-  [SiGo, 'Go'], [SiPython, 'Python'], [SiRust, 'Rust'],
-  [SiTypescript, 'TypeScript'], [SiNodedotjs, 'Node.js'], [SiNextdotjs, 'Next.js'],
-] as const
+const langs = [[SiGo, 'Go'], [SiRust, 'Rust'], [SiPython, 'Python'], [SiTypescript, 'TypeScript']] as const
 
 const code = [
-  ['$ ', 'roshan deploy --model rag-v3'],
-  ['→ ', 'retriever   hybrid(bm25+vec)  ok'],
-  ['→ ', 'reranker    p95 38ms          ok'],
-  ['→ ', 'evals       accuracy 0.92     pass'],
-  ['✓ ', 'live at api.roshan.dev  (2.1s)'],
-]
+  ['$', 'roshan deploy --model rag-v3', 'cmd'],
+  ['→', 'retriever   hybrid(bm25+vec)', 'ok'],
+  ['→', 'reranker    p95 38ms', 'ok'],
+  ['→', 'evals       accuracy 0.92', 'pass'],
+  ['✓', 'live at api.roshan.dev', '2.1s'],
+] as const
 
 function RotatingRole() {
   const [i, setI] = useState(0)
-  useEffect(() => { const t = setInterval(() => setI((v) => (v + 1) % roles.length), 2400); return () => clearInterval(t) }, [])
+  useEffect(() => { const t = setInterval(() => setI((v) => (v + 1) % roles.length), 2600); return () => clearInterval(t) }, [])
   return (
-    <span className="relative inline-block h-[1.2em] overflow-hidden align-bottom">
+    <span className="relative inline-grid h-[1.45em] overflow-hidden pt-[0.1em] align-bottom" aria-live="polite">
       <AnimatePresence mode="wait">
-        <motion.span
-          key={i}
-          className="inline-block text-accent"
-          initial={{ y: '100%', opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: '-100%', opacity: 0 }}
-          transition={{ duration: 0.5, ease }}
-        >
+        <motion.span key={i} className="text-ink" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '-100%' }} transition={{ duration: 0.5, ease }}>
           {roles[i]}
         </motion.span>
       </AnimatePresence>
@@ -44,152 +34,120 @@ function RotatingRole() {
   )
 }
 
-function Terminal() {
+function Deploy() {
   const [n, setN] = useState(0)
-  useEffect(() => {
-    const t = setInterval(() => setN((v) => (v >= code.length + 3 ? 0 : v + 1)), 700)
-    return () => clearInterval(t)
-  }, [])
+  useEffect(() => { const t = setInterval(() => setN((v) => (v >= code.length + 4 ? 0 : v + 1)), 650); return () => clearInterval(t) }, [])
+  const done = n >= code.length
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40, rotate: 3 }}
-      animate={{ opacity: 1, y: 0, rotate: 0 }}
+    <motion.figure
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1, duration: 1, ease }}
-      whileHover={{ rotate: -1, scale: 1.02 }}
-      className="w-full max-w-md rounded-2xl border border-line bg-black"
+      className="relative w-full max-w-md"
+      aria-label="Example deploy log"
     >
-      <div className="flex items-center gap-2 border-b border-line px-4 py-3">
-        <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-        <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
-        <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-        <span className="ml-3 font-mono text-[11px] text-mute">~/roshan — zsh</span>
+      <div aria-hidden className="absolute -inset-px rounded-2xl bg-[conic-gradient(from_180deg,transparent_60%,#ff5b1f_80%,transparent)] opacity-60 blur-[1px]" />
+      <div className="relative rounded-2xl bg-black/90 backdrop-blur">
+        <div className="flex items-center justify-between border-b border-line px-5 py-3 font-mono text-[11px] text-mute">
+          <span>~/roshan — zsh</span>
+          <span className={`flex items-center gap-2 ${done ? 'text-[#c6f432]' : 'text-accent'}`}>
+            <span className={`h-1.5 w-1.5 rounded-full ${done ? 'bg-[#c6f432]' : 'animate-pulse bg-accent'}`} />{done ? 'deployed' : 'deploying'}
+          </span>
+        </div>
+        <ol className="min-h-[176px] space-y-1 p-5 font-mono text-[12.5px] leading-6">
+          {code.slice(0, Math.min(n, code.length)).map(([p, l, s], i) => (
+            <motion.li key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} className="grid grid-cols-[1rem_1fr_auto] gap-2 whitespace-pre">
+              <span className={i === 0 ? 'text-accent' : i === code.length - 1 ? 'text-[#c6f432]' : 'text-mute'}>{p}</span>
+              <span className={i === 0 ? 'text-ink' : 'text-ink/75'}>{l}</span>
+              {s !== 'cmd' && <span className={i === code.length - 1 ? 'text-mute' : 'text-[#c6f432]'}>{s}</span>}
+            </motion.li>
+          ))}
+          {!done && <li aria-hidden className="inline-block h-4 w-2 animate-pulse bg-accent" />}
+        </ol>
+        <div className="grid grid-cols-2 border-t border-line">
+          {profile.stats.map((s, i) => (
+            <div key={s.label} className={`px-5 py-4 ${i % 2 ? 'border-l border-line' : ''} ${i > 1 ? 'border-t border-line' : ''}`}>
+              <p className="font-display text-3xl leading-none"><Counter to={s.value} /></p>
+              <p className="mt-1 font-mono text-[10px] uppercase tracking-widest text-mute">{s.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="min-h-[170px] p-5 font-mono text-[12px] leading-6 md:text-[13px]">
-        {code.slice(0, Math.min(n, code.length)).map(([p, l], i) => (
-          <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} className="whitespace-pre">
-            <span className={i === 0 ? 'text-accent' : i === code.length - 1 ? 'text-[#c6f432]' : 'text-mute'}>{p}</span>
-            <span className={i === 0 ? 'text-ink' : 'text-ink/80'}>{l}</span>
-          </motion.div>
-        ))}
-        <span className="inline-block h-4 w-2 animate-pulse bg-accent align-middle" />
-      </div>
-    </motion.div>
+    </motion.figure>
   )
 }
 
 export default function Hero() {
   const { scrollY } = useScroll()
-  const y = useTransform(scrollY, [0, 700], [0, 140])
+  const y = useTransform(scrollY, [0, 700], [0, 120])
   const o = useTransform(scrollY, [0, 600], [1, 0])
+  const nameX = useTransform(scrollY, [0, 700], [0, -80])
   const time = useClock()
 
   return (
-    <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden px-6 pb-8 pt-28 md:px-10">
+    <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden px-6 pb-10 pt-28 md:px-10">
       <Suspense fallback={null}><NeuralBg /></Suspense>
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
+      <div aria-hidden className="pointer-events-none absolute -right-40 top-1/3 -z-10 h-[38rem] w-[38rem] rounded-full bg-accent/10 blur-[140px]" />
 
       <motion.div style={{ y, opacity: o }} className="flex flex-1 flex-col">
-        {/* top meta row */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, ease }}
-          className="flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-mute"
-        >
+        {/* status rail */}
+        <motion.dl initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
+          className="flex flex-wrap items-center gap-x-8 gap-y-2 border-b border-line pb-4 font-mono text-[11px] uppercase tracking-widest text-mute">
           {profile.available && (
-            <span className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5 text-ink">
-              <span className="relative flex h-2 w-2"><span className="absolute h-full w-full animate-ping rounded-full bg-accent" /><span className="h-2 w-2 rounded-full bg-accent" /></span>
-              Available for work · 2026
-            </span>
+            <div className="flex items-center gap-2 text-ink">
+              <span className="relative flex h-2 w-2"><span className="absolute h-full w-full animate-ping rounded-full bg-[#c6f432]" /><span className="h-2 w-2 rounded-full bg-[#c6f432]" /></span>
+              <dt className="sr-only">Status</dt><dd>Open to work · 2026</dd>
+            </div>
           )}
-          <span className="rounded-full border border-line px-3 py-1.5">📍 {profile.location}</span>
-          <span className="rounded-full border border-line px-3 py-1.5">{time} NPT</span>
-        </motion.div>
+          <div className="flex gap-2"><dt>Based</dt><dd className="text-ink">{profile.location}</dd></div>
+          <div className="flex gap-2"><dt>Local</dt><dd className="tabular-nums text-ink">{time} NPT</dd></div>
+        </motion.dl>
 
-        {/* main grid */}
-        <div className="mt-10 grid flex-1 items-center gap-12 lg:grid-cols-[1.3fr_1fr]">
+        <div className="mt-10 grid flex-1 content-center items-center gap-12 lg:grid-cols-[1.4fr_1fr]">
           <div>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="font-mono text-sm text-accent">
               {'// hello, world — I am'}
             </motion.p>
-            <h1 className="mt-3 font-display text-[clamp(3.5rem,11vw,9.5rem)] leading-[0.88] tracking-tight">
-              <SplitReveal text={profile.first} now delay={0.35} />
-              <span className="italic text-accent"><SplitReveal text={profile.last} now delay={0.5} /></span>
+            <h1 className="mt-4 font-display leading-[0.82] tracking-tight">
+              <span className="block text-[clamp(4rem,13vw,11rem)]"><SplitReveal text={profile.first} now delay={0.35} /></span>
+              <motion.span style={{ x: nameX }} className="block pl-[8vw] text-[clamp(4rem,13vw,11rem)] italic text-accent">
+                <SplitReveal text={profile.last} now delay={0.5} />
+              </motion.span>
             </h1>
-            <p className="mt-6 text-2xl font-medium md:text-4xl">
-              <RotatingRole />
-            </p>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, ease }}
-              className="mt-5 max-w-xl text-base leading-relaxed text-mute md:text-lg"
-            >
-              {profile.tagline} I design APIs, RAG pipelines and agent systems in <span className="text-ink">Go, Rust, Python and TypeScript</span> — with evals, latency budgets and clean on-call.
-            </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.05, ease }}
-              className="mt-8 flex flex-wrap items-center gap-3"
-            >
-              <Magnetic>
-                <Link to="/work" data-cursor="View" className="group inline-flex items-center gap-2 rounded-full bg-accent px-7 py-4 font-medium text-bg transition hover:brightness-110">
-                  See my work <ArrowUpRight size={18} className="transition-transform group-hover:rotate-45" />
-                </Link>
-              </Magnetic>
-              <Magnetic>
-                <Link to="/contact" className="inline-flex items-center gap-2 rounded-full border border-line px-7 py-4 font-medium transition hover:border-ink">
-                  Get in touch
-                </Link>
-              </Magnetic>
-              <a href={profile.resume} className="link-u ml-2 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-mute hover:text-ink">
-                <Download size={14} /> Resume
-              </a>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, ease }}
+              className="mt-10 grid max-w-3xl gap-5 border-l border-accent pl-6 md:grid-cols-[11rem_1fr] md:items-start md:gap-10">
+              <p className="font-mono text-xs uppercase tracking-widest text-mute">Currently<br /><span className="text-base normal-case tracking-normal md:text-lg"><RotatingRole /></span></p>
+              <p className="text-base leading-relaxed text-mute md:text-lg">
+                {profile.tagline} APIs, RAG pipelines and agents in{' '}
+                {langs.map(([Icon, n], i) => (
+                  <span key={n} className="whitespace-nowrap text-ink"><Icon aria-hidden className="mr-1 inline align-[-2px]" size={14} />{n}{i < langs.length - 2 ? ', ' : i === langs.length - 2 ? ' and ' : ''}</span>
+                ))}
+                {' '}— with evals, latency budgets and clean on-call.
+              </p>
             </motion.div>
 
-            {/* tech row */}
-            <div className="mt-10 flex flex-wrap items-center gap-5">
-              <span className="font-mono text-[11px] uppercase tracking-widest text-mute">Stack</span>
-              {tech.map(([Icon, name], i) => (
-                <motion.span
-                  key={name}
-                  title={name}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.2 + i * 0.07, ease }}
-                  whileHover={{ y: -4, scale: 1.2 }}
-                  className="text-2xl text-mute transition-colors hover:text-accent"
-                >
-                  <Icon />
-                </motion.span>
-              ))}
-            </div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.05, ease }} className="mt-10 flex flex-wrap items-center gap-3">
+              <Magnetic>
+                <Link to="/work" data-cursor="View" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-accent py-2 pl-7 pr-2 font-medium text-bg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+                  See my work
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-bg text-accent transition-transform duration-500 group-hover:rotate-45"><ArrowUpRight size={18} /></span>
+                </Link>
+              </Magnetic>
+              <Link to="/contact" className="link-u px-4 py-4 font-medium">Get in touch</Link>
+              <a href={profile.resume} className="inline-flex items-center gap-2 px-2 py-4 font-mono text-xs uppercase tracking-widest text-mute transition-colors hover:text-ink">
+                <Download size={14} aria-hidden /> Resume
+              </a>
+            </motion.div>
           </div>
 
-          <div className="flex justify-center lg:justify-end">
-            <Terminal />
-          </div>
+          <div className="flex justify-center lg:justify-end"><Deploy /></div>
         </div>
 
-        {/* stats strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4, ease }}
-          className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-[repeat(4,1fr)_auto]"
-        >
-          {profile.stats.map((s) => (
-            <div key={s.label} className="bg-black px-5 py-4">
-              <p className="font-display text-3xl text-ink md:text-4xl"><Counter to={s.value} /></p>
-              <p className="font-mono text-[10px] uppercase tracking-widest text-mute">{s.label}</p>
-            </div>
-          ))}
-          <a href="#next" className="col-span-2 flex items-center justify-center gap-2 bg-black px-6 py-4 font-mono text-[11px] uppercase tracking-widest text-mute hover:text-accent md:col-span-1">
-            Scroll <motion.span animate={{ y: [0, 5, 0] }} transition={{ duration: 1.4, repeat: Infinity }}><ArrowDownRight size={16} /></motion.span>
-          </a>
-        </motion.div>
+        <a href="#next" className="mt-14 flex items-center gap-3 self-start font-mono text-[11px] uppercase tracking-widest text-mute transition-colors hover:text-accent">
+          <motion.span animate={{ y: [0, 4, 0] }} transition={{ duration: 1.4, repeat: Infinity }}><ArrowDown size={14} /></motion.span>
+          Scroll to explore
+        </a>
       </motion.div>
     </section>
   )

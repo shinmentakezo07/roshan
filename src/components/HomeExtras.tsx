@@ -93,7 +93,7 @@ export function Bento() {
   const time = useClock()
   return (
     <section className="px-6 py-28 md:px-10">
-      <Label>(03) At a glance</Label>
+      <Label>(04) At a glance</Label>
       <h2 className="mt-3 font-display text-5xl md:text-7xl"><SplitReveal text="A little about" /> <span className="italic text-accent"><SplitReveal text="how I work" delay={0.2} /></span></h2>
       <div className="mt-12 grid auto-rows-[minmax(180px,auto)] gap-4 md:grid-cols-4">
         <Card className="md:col-span-2 md:row-span-2">
@@ -154,7 +154,7 @@ export function Process() {
     <section ref={ref} className="relative h-[260vh]">
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
         <div className="px-6 md:px-10">
-          <Label>(04) Process</Label>
+          <Label>(05) Process</Label>
           <h2 className="mt-3 font-display text-5xl md:text-7xl">From idea to <span className="italic text-accent">production</span></h2>
         </div>
         <motion.div style={{ x }} className="mt-12 flex gap-6 px-6 md:px-10">
@@ -181,7 +181,7 @@ export function Testimonials() {
   return (
     <section className="py-28">
       <div className="px-6 md:px-10">
-        <Label>(05) Kind words</Label>
+        <Label>(06) Kind words</Label>
         <h2 className="mt-3 font-display text-5xl md:text-7xl"><SplitReveal text="People I've built with" /></h2>
       </div>
       <div className="mt-12 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]">
@@ -207,7 +207,7 @@ export function Writing() {
   const [hover, setHover] = useState<number | null>(null)
   return (
     <section className="px-6 py-28 md:px-10">
-      <Label>(06) Writing</Label>
+      <Label>(07) Writing</Label>
       <h2 className="mt-3 font-display text-5xl md:text-7xl"><SplitReveal text="Notes from the backend" /></h2>
       <ul className="mt-12" onMouseLeave={() => setHover(null)}>
         {writing.map((w, i) => (
@@ -231,7 +231,7 @@ export function BigCTA() {
   return (
     <section className="relative overflow-hidden px-6 py-40 text-center md:px-10">
       <div className="relative">
-        <Label>(07) Next step</Label>
+        <Label>(08) Next step</Label>
         <h2 className="mx-auto mt-6 max-w-5xl font-display text-6xl leading-[0.95] md:text-9xl">
           <SplitReveal text="Have an idea?" /> <span className="italic text-accent"><SplitReveal text="Let's ship it." delay={0.2} /></span>
         </h2>
