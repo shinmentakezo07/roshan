@@ -22,11 +22,9 @@ export const profile = {
     { label: 'LLM apps in prod', value: 8 },
   ],
   socials: [
-    { label: 'GitHub', url: 'https://github.com/roshan' },
-    { label: 'LinkedIn', url: 'https://linkedin.com/in/roshan' },
-    { label: 'X / Twitter', url: 'https://x.com/roshan' },
-    { label: 'Dribbble', url: 'https://dribbble.com/roshan' },
-    { label: 'Dev.to', url: 'https://dev.to/roshan' },
+    { label: 'GitHub', url: 'https://github.com/shinmentakezo07' },
+    { label: 'LinkedIn', url: '' },
+    { label: 'X / Twitter', url: '' },
   ],
 }
 

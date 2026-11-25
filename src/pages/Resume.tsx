@@ -52,7 +52,7 @@ export default function Resume() {
                 <li>{profile.email}</li>
                 <li>{profile.phone}</li>
                 <li>{profile.location}</li>
-                {profile.socials.map((s) => <li key={s.label}>{s.url.replace('https://', '')}</li>)}
+                {profile.socials.filter((s) => s.url).map((s) => <li key={s.label}>{s.url.replace('https://', '')}</li>)}
               </ul>
             </motion.header>
 

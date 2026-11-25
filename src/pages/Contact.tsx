@@ -4,6 +4,7 @@ import { ArrowUpRight, Copy, Check, MapPin, Clock, Zap, Plus, Phone } from 'luci
 import { profile } from '../content/data'
 import { Label, Magnetic, Page, Reveal, SplitReveal } from '../components/anim'
 import { useClock } from '../components/Nav'
+import { SocialIcon } from '../components/SocialIcon'
 
 const TOPICS = ['Backend / APIs', 'LLM / RAG system', 'AI agents', 'Full-stack app', 'Performance audit', 'Full-time role']
 const BUDGETS = ['< $2k', '$2k – $5k', '$5k – $15k', '$15k+', 'Not sure yet']
@@ -185,10 +186,14 @@ export default function Contact() {
             <ul className="mt-4 divide-y divide-line border-y border-line">
               {profile.socials.map((s) => (
                 <li key={s.label}>
-                  <a href={s.url} target="_blank" rel="noreferrer" className="group flex items-center justify-between py-4 text-xl transition-colors hover:text-accent">
-                    {s.label}
-                    <ArrowUpRight size={20} className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
-                  </a>
+                  {s.url ? (
+                    <a href={s.url} target="_blank" rel="noreferrer" className="group flex items-center justify-between py-4 text-xl transition-colors hover:text-accent">
+                      <span className="inline-flex items-center gap-3"><SocialIcon label={s.label} size={20} />{s.label}</span>
+                      <ArrowUpRight size={20} className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
+                    </a>
+                  ) : (
+                    <span className="flex items-center gap-3 py-4 text-xl text-mute"><SocialIcon label={s.label} size={20} />{s.label}</span>
+                  )}
                 </li>
               ))}
             </ul>
