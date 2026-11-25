@@ -1,4 +1,5 @@
 import Hero from '../components/Hero'
+import { Bento, Process, Testimonials, Writing, BigCTA } from '../components/HomeExtras'
 import { useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { Link } from 'react-router-dom'
@@ -94,6 +95,11 @@ export default function Home() {
       <FeaturedWork />
       <Statement />
       <Services />
+      <Bento />
+      <Process />
+      <Testimonials />
+      <Writing />
+      <BigCTA />
     </Page>
   )
 }
