@@ -1,48 +1,10 @@
-import { lazy, Suspense, useState } from 'react'
-import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion'
+import Hero from '../components/Hero'
+import { useState } from 'react'
+import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { ArrowDownRight, ArrowUpRight } from 'lucide-react'
-import { profile, projects, services, skills } from '../content/data'
-import { Label, Magnetic, Marquee, Page, Reveal, SplitReveal, ease } from '../components/anim'
-
-const NeuralBg = lazy(() => import('../components/NeuralBg'))
-
-function Hero() {
-  const { scrollY } = useScroll()
-  const y = useTransform(scrollY, [0, 600], [0, 160])
-  const o = useTransform(scrollY, [0, 500], [1, 0])
-  return (
-    <section className="relative isolate flex min-h-screen flex-col justify-end overflow-hidden px-6 pb-12 md:px-10">
-      <Suspense fallback={null}><NeuralBg /></Suspense>
-      <motion.div style={{ y, opacity: o }}>
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mb-8 flex flex-wrap items-center gap-4 font-mono text-xs uppercase tracking-widest text-mute">
-          {profile.available && (
-            <span className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5 text-ink">
-              <span className="relative flex h-2 w-2"><span className="absolute h-full w-full animate-ping rounded-full bg-accent" /><span className="h-2 w-2 rounded-full bg-accent" /></span>
-              Available for work
-            </span>
-          )}
-          <span>{profile.location}</span>
-        </motion.div>
-        <h1 className="font-display text-[19vw] leading-[0.85] tracking-tight md:text-[13vw]">
-          <SplitReveal text={profile.first} now delay={0.3} />
-          <br />
-          <span className="italic text-accent"><SplitReveal text={profile.last} now delay={0.45} /></span>
-        </h1>
-        <div className="mt-8 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, ease }} className="max-w-xl text-xl text-mute md:text-2xl">
-            <span className="text-ink">{profile.role}.</span> {profile.tagline}
-          </motion.p>
-          <Magnetic>
-            <Link to="/work" data-cursor="View" className="flex h-32 w-32 items-center justify-center rounded-full bg-ink text-bg transition-colors hover:bg-accent">
-              <ArrowDownRight size={36} />
-            </Link>
-          </Magnetic>
-        </div>
-      </motion.div>
-    </section>
-  )
-}
+import { ArrowUpRight } from 'lucide-react'
+import { projects, services, skills } from '../content/data'
+import { Label, Marquee, Page, Reveal, SplitReveal, ease } from '../components/anim'
 
 function FeaturedWork() {
   const [active, setActive] = useState<number | null>(null)
@@ -73,7 +35,7 @@ function FeaturedWork() {
         ))}
       </ul>
       <motion.div
-        style={{ left: sx, top: sy, background: `radial-gradient(circle at 30% 20%, ${p.color}, #141412 75%)` }}
+        style={{ left: sx, top: sy, background: `radial-gradient(circle at 30% 20%, ${p.color}, #000000 75%)` }}
         animate={{ scale: active === null ? 0 : 1, rotate: active === null ? -8 : 0 }}
         transition={{ duration: 0.4, ease }}
         className="pointer-events-none fixed z-30 hidden h-56 w-80 -translate-x-1/2 -translate-y-1/2 flex-col justify-end rounded-2xl p-6 text-bg md:flex"
@@ -126,7 +88,7 @@ export default function Home() {
   return (
     <Page>
       <Hero />
-      <div className="-rotate-2 border-y border-line bg-accent py-4 font-display text-3xl text-bg md:text-5xl">
+      <div id="next" className="-rotate-2 border-y border-line bg-accent py-4 font-display text-3xl text-bg md:text-5xl">
         <Marquee items={all} speed={40} />
       </div>
       <FeaturedWork />

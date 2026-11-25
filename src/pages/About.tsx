@@ -17,7 +17,7 @@ export default function About() {
           <div className="relative aspect-[3/4] overflow-hidden rounded-3xl border border-line bg-panel">
             <motion.div
               className="absolute inset-0"
-              style={{ background: 'conic-gradient(from 0deg, #ff5b1f, #141412, #c6f432, #141412, #ff5b1f)' }}
+              style={{ background: 'conic-gradient(from 0deg, #ff5b1f, #000000, #c6f432, #000000, #ff5b1f)' }}
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
             />
