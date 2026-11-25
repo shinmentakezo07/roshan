@@ -19,7 +19,7 @@ export default function Loader() {
       {show && (
         <motion.div exit={{ y: '-100%' }} transition={{ duration: 0.9, ease }} className="fixed inset-0 z-[90] flex flex-col justify-between bg-black p-6 md:p-10">
           <div className="flex justify-between font-mono text-xs uppercase tracking-widest text-mute">
-            <span>Roshan Khatru</span><span>Portfolio © 2026</span>
+            <span>Roshan Khatri</span><span>Portfolio © 2026</span>
           </div>
           <div className="flex items-end justify-between">
             <div className="overflow-hidden">

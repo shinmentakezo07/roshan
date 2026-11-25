@@ -1,8 +1,8 @@
 // ALL placeholder data lives here. Edit this file only.
 export const profile = {
-  name: 'Roshan Khatru',
+  name: 'Roshan Khatri',
   first: 'Roshan',
-  last: 'Khatru',
+  last: 'Khatri',
   role: 'Backend & LLM / AI Engineer',
   tagline: 'I build fast backends and LLM systems that survive production.',
   location: 'Kathmandu, Nepal',
@@ -52,9 +52,43 @@ export type Project = {
   slug: string; title: string; year: string; role: string; desc: string; tags: string[]
   color: string; metric: string; problem: string; solution: string; results: string[]
   link: string; repo: string
+  stats?: { v: string; l: string }[]
+  features?: { t: string; d: string }[]
+  flow?: string[]
+  inbound?: string[]
+  outbound?: string[]
+  code?: string
+  timeline?: [string, string][]
+  quote?: { q: string; by: string }
 }
 
 export const projects: Project[] = [
+  {
+    slug: 'wiwi', title: 'wiwi', year: '2026', role: 'Creator', color: '#8b5cf6',
+    desc: 'Self-hosted LLM gateway: speak OpenAI, Responses or Anthropic on the inbound, route to 13 providers on the outbound.',
+    tags: ['Python', 'Go', 'LLM', 'FastAPI'], metric: '3 dialects × 13 providers',
+    problem: 'Every AI tool speaks a different API dialect (OpenAI Chat, OpenAI Responses for Codex CLI, Anthropic Messages for Claude Code), and every provider expects its own. Wiring them pairwise does not scale.',
+    solution: 'No pairwise converters: every request decodes into one canonical IR and re-encodes in the caller’s dialect. Two interchangeable backends (Python/FastAPI and Go/Gin) share one contract, one config, SQLite or Postgres state and a React 19 console.',
+    results: ['39 inbound/outbound pairings', 'Two backends, one API contract', 'Self-hosted in a single process'],
+    link: 'https://github.com/shinmentakezo07/wiwia', repo: 'https://github.com/shinmentakezo07/wiwia',
+    stats: [{ v: '3', l: 'Inbound dialects' }, { v: '13', l: 'Outbound providers' }, { v: '39', l: 'Possible pairings' }, { v: '2', l: 'Interchangeable backends' }],
+    inbound: ['OpenAI Chat', 'OpenAI Responses · Codex CLI', 'Anthropic Messages · Claude Code'],
+    outbound: ['OpenAI', 'Anthropic', 'Gemini', 'OpenRouter', 'NVIDIA NIM', 'Cline', 'WorkBuddy', 'GMI Cloud', 'B.AI', 'OpenCode Zen', 'Hermes', 'IFM (MBZUAI)', 'Any OpenAI-compatible'],
+    flow: ['Client dialect', 'Decode', 'Canonical IR', 'Route', 'Provider', 'Re-encode'],
+    features: [
+      { t: 'One canonical IR', d: 'No pairwise converters. Each dialect only needs a decoder and an encoder.' },
+      { t: 'Two backends, one contract', d: 'Python/FastAPI (default) or Go/Gin. Same API, same config, same state.' },
+      { t: 'Drop-in for coding agents', d: 'Point Claude Code or Codex CLI at wiwi and use any provider behind it.' },
+      { t: 'SQLite or Postgres', d: 'Shared state for keys, routes and usage across both backends.' },
+      { t: 'React 19 console', d: 'A Vite-powered web console to manage providers, routes and keys.' },
+      { t: 'Self-hosted', d: 'Runs as one process. Your keys and traffic stay on your machine.' },
+    ],
+    code: `# point any OpenAI-compatible client at wiwi
+export OPENAI_BASE_URL=http://localhost:8000/v1
+
+# or run Claude Code through it
+export ANTHROPIC_BASE_URL=http://localhost:8000`,
+  },
   {
     slug: 'agentforge', title: 'AgentForge', year: '2025', role: 'Creator', color: '#ff5b1f',
     desc: 'Multi-agent orchestration framework with tool calling, memory and tracing.',
