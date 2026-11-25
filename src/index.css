@@ -42,3 +42,11 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+@media print {
+  @page { size: A4; margin: 0; }
+  body { background: #fff !important; }
+  header, footer, .grain, nav, [aria-hidden], .fixed { display: none !important; }
+  .resume-paper { transform: none !important; opacity: 1 !important; }
+  .resume-paper * { opacity: 1 !important; transform: none !important; }
+}

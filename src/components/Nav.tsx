@@ -5,7 +5,7 @@ import { profile } from '../content/data'
 import { ease } from './anim'
 
 const links = [
-  ['/', 'Home'], ['/work', 'Work'], ['/about', 'About'], ['/experience', 'Experience'], ['/contact', 'Contact'],
+  ['/', 'Home'], ['/work', 'Work'], ['/about', 'About'], ['/experience', 'Experience'], ['/resume', 'Resume'], ['/contact', 'Contact'],
 ]
 
 export function useClock() {

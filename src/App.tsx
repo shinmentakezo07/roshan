@@ -14,6 +14,7 @@ import ProjectDetail from './pages/ProjectDetail'
 import About from './pages/About'
 import Experience from './pages/Experience'
 import Contact from './pages/Contact'
+import Resume from './pages/Resume'
 import NotFound from './pages/NotFound'
 
 function Shell() {
@@ -38,6 +39,7 @@ function Shell() {
           <Route path="/about" element={<About />} />
           <Route path="/experience" element={<Experience />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/resume" element={<Resume />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AnimatePresence>

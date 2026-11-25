@@ -9,7 +9,7 @@ export const profile = {
   timezone: 'Asia/Kathmandu',
   email: 'roshan@example.com',
   available: true,
-  resume: '#',
+  resume: '/resume',
   about: [
     'I am a full-stack developer who lives closest to the metal: APIs, queues, databases and the LLM pipelines that sit on top of them.',
     'Most of my work is turning fuzzy AI ideas into systems with latency budgets, evals and on-call runbooks. I write Go and Rust when it needs to be fast, Python when it needs to be smart, and TypeScript when people need to see it.',
