@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
-import { ArrowUpRight, Copy, Check, MapPin, Clock, Zap, Plus, Phone } from 'lucide-react'
+import { ArrowUpRight, Copy, Check, MapPin, Clock, Zap, Plus, Phone, Sparkle } from 'lucide-react'
 import { profile } from '../content/data'
 import { Label, Magnetic, Page, Reveal, SplitReveal } from '../components/anim'
 import { useClock } from '../components/Nav'
@@ -177,7 +177,7 @@ export default function Contact() {
             <Label>Open to</Label>
             <ul className="mt-4 space-y-3 text-xl">
               {['Backend & platform roles', 'LLM / AI engineering', 'Freelance projects', 'Open-source collaborations'].map((x) => (
-                <li key={x} className="flex items-center gap-3"><span className="text-accent">✦</span>{x}</li>
+                <li key={x} className="flex items-center gap-3"><Sparkle className="h-4 w-4 shrink-0 text-accent" />{x}</li>
               ))}
             </ul>
           </div>

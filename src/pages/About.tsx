@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { Bike, BookOpen, Camera, Cat, Coffee, Cpu, Crown, Headphones, Mountain, Soup, Wrench, type LucideIcon } from 'lucide-react'
 import { principles, profile, skills } from '../content/data'
 import { Counter, Label, Page, Reveal, SplitReveal, TiltCard, ease } from '../components/anim'
 
@@ -110,14 +111,30 @@ export default function About() {
       </section>
 
       <section className="grid gap-6 px-6 py-24 md:grid-cols-3 md:px-10">
-        {[
-          { k: 'Currently building', v: 'An open-source eval harness for LLM agents', e: '🛠️' },
-          { k: 'Currently reading', v: 'Designing Data-Intensive Applications (again)', e: '📚' },
-          { k: 'Currently learning', v: 'CUDA kernels and inference optimization', e: '⚡' },
-        ].map((c, i) => (
+        {([
+          { k: 'Currently building', v: 'An open-source eval harness for LLM agents', Icon: Wrench },
+          { k: 'Currently reading', v: 'Designing Data-Intensive Applications (again)', Icon: BookOpen },
+          { k: 'Currently learning', v: 'CUDA kernels and inference optimization', Icon: Cpu },
+        ] as { k: string; v: string; Icon: LucideIcon }[]).map((c, i) => (
           <Reveal key={c.k} delay={i * 0.1}>
-            <TiltCard className="h-full rounded-3xl border border-line bg-panel p-8">
-              <motion.span className="inline-block text-4xl" animate={{ y: [0, -6, 0] }} transition={{ duration: 3, repeat: Infinity, delay: i * 0.4 }}>{c.e}</motion.span>
+            <TiltCard className="group relative h-full overflow-hidden rounded-3xl border border-line bg-panel p-8 transition-colors hover:border-accent">
+              <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/10 blur-3xl transition-opacity duration-500 group-hover:opacity-100 md:opacity-0" />
+              <div className="flex items-center justify-between">
+                <motion.span
+                  className="relative grid h-14 w-14 place-items-center rounded-2xl border border-accent/30 bg-accent/10 text-accent"
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' }}
+                >
+                  <c.Icon className="h-6 w-6" strokeWidth={1.75} />
+                </motion.span>
+                <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-mute">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                  </span>
+                  Now
+                </span>
+              </div>
               <p className="mt-8 font-mono text-xs uppercase tracking-widest text-mute">{c.k}</p>
               <p className="mt-2 font-display text-2xl leading-snug">{c.v}</p>
             </TiltCard>
@@ -128,16 +145,28 @@ export default function About() {
       <section className="px-6 py-24 md:px-10">
         <Label>Beyond code</Label>
         <div className="mt-8 flex flex-wrap gap-3">
-          {['☕ Pour-over nerd', '🏔️ Himalayan trekker', '♟️ 1800 on Lichess', '🎧 Lo-fi while debugging', '📸 Street photography', '🐈 Cat person', '🚴 Weekend cyclist', '🍜 Momo critic'].map((t, i) => (
+          {([
+            [Coffee, 'Pour-over nerd'],
+            [Mountain, 'Himalayan trekker'],
+            [Crown, '1800 on Lichess'],
+            [Headphones, 'Lo-fi while debugging'],
+            [Camera, 'Street photography'],
+            [Cat, 'Cat person'],
+            [Bike, 'Weekend cyclist'],
+            [Soup, 'Momo critic'],
+          ] as [LucideIcon, string][]).map(([Icon, t], i) => (
             <motion.span
               key={t}
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, ease, delay: i * 0.05 }}
-              whileHover={{ scale: 1.08, rotate: i % 2 ? 2 : -2 }}
-              className="rounded-full border border-line bg-panel px-5 py-3 text-lg transition-colors hover:border-accent"
+              whileHover={{ scale: 1.06, rotate: i % 2 ? 2 : -2 }}
+              className="group inline-flex items-center gap-3 rounded-full border border-line bg-panel py-2 pl-2 pr-5 text-lg transition-colors hover:border-accent"
             >
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-accent/10 text-accent transition-colors group-hover:bg-accent group-hover:text-panel">
+                <Icon className="h-4 w-4" strokeWidth={2} />
+              </span>
               {t}
             </motion.span>
           ))}

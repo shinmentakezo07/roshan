@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, Cpu, Database, GitBranch, Sparkles, Zap } from 'lucide-react'
+import { ArrowUpRight, BookOpen, Cpu, Database, GitBranch, Headphones, Sparkles, Zap } from 'lucide-react'
 import { SiGo, SiPython, SiRust, SiTypescript, SiNextdotjs, SiNodedotjs, SiPostgresql, SiRedis, SiDocker, SiKubernetes } from 'react-icons/si'
 import { profile } from '../content/data'
 import { Label, Reveal, SplitReveal, ease } from './anim'
@@ -135,9 +135,16 @@ export function Bento() {
         <Card className="md:col-span-2" delay={0.15}>
           <Label>Now</Label>
           <ul className="mt-4 space-y-2 text-lg">
-            <li>📚 Reading <span className="text-mute">Designing Data-Intensive Applications (again)</span></li>
-            <li>🦀 Learning <span className="text-mute">async Rust internals</span></li>
-            <li>🎧 Listening <span className="text-mute">lo-fi while debugging Kafka</span></li>
+            {([
+              [BookOpen, 'Reading', 'Designing Data-Intensive Applications (again)'],
+              [SiRust, 'Learning', 'async Rust internals'],
+              [Headphones, 'Listening', 'lo-fi while debugging Kafka'],
+            ] as const).map(([Icon, k, v]) => (
+              <li key={k} className="flex items-center gap-3">
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent/10 text-accent"><Icon className="h-4 w-4" strokeWidth={2} /></span>
+                <span>{k} <span className="text-mute">{v}</span></span>
+              </li>
+            ))}
           </ul>
         </Card>
       </div>

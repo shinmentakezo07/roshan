@@ -1,4 +1,5 @@
 import { motion, useMotionValue, useSpring, animate, useInView } from 'framer-motion'
+import { Sparkle } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 export const ease = [0.22, 1, 0.36, 1] as const
@@ -66,7 +67,7 @@ export function Marquee({ items, speed = 30, className = '' }: { items: string[]
       <motion.div className="inline-flex" animate={{ x: ['0%', '-50%'] }} transition={{ duration: speed, repeat: Infinity, ease: 'linear' }}>
         {row.map((t, i) => (
           <span key={i} className="mx-6 inline-flex items-center gap-6">
-            {t}<span className="text-accent">✦</span>
+            {t}<Sparkle className="h-[0.6em] w-[0.6em] shrink-0 text-accent" />
           </span>
         ))}
       </motion.div>

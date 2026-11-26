@@ -5,7 +5,7 @@ import { profile } from '../content/data'
 import { ease } from './anim'
 
 const links = [
-  ['/', 'Home'], ['/work', 'Work'], ['/about', 'About'], ['/experience', 'Experience'], ['/resume', 'Resume'], ['/contact', 'Contact'],
+  ['/', 'Home'], ['/work', 'Work'], ['/writing', 'Writing'], ['/about', 'About'], ['/experience', 'Experience'], ['/now', 'Now'], ['/uses', 'Uses'], ['/resume', 'Resume'], ['/contact', 'Contact'],
 ]
 
 export function useClock() {
@@ -26,15 +26,15 @@ export default function Nav() {
       <header className="fixed inset-x-0 top-0 z-50 mix-blend-difference">
         <nav className="flex items-center justify-between px-6 py-5 md:px-10">
           <Link to="/" className="font-display text-2xl italic">RK<sup className="font-sans text-xs not-italic">©</sup></Link>
-          <ul className="hidden gap-8 font-mono text-xs uppercase tracking-widest md:flex">
+          <ul className="hidden gap-6 font-mono text-xs uppercase tracking-widest lg:flex">
             {links.slice(1).map(([to, l]) => (
               <li key={to}>
                 <NavLink to={to} className={({ isActive }) => `link-u ${isActive ? 'text-accent' : ''}`}>{l}</NavLink>
               </li>
             ))}
           </ul>
-          <div className="hidden font-mono text-xs text-mute md:block">KTM {time}</div>
-          <button onClick={() => setOpen(!open)} className="font-mono text-xs uppercase tracking-widest md:hidden">
+          <div className="hidden font-mono text-xs text-mute lg:block">KTM {time}</div>
+          <button onClick={() => setOpen(!open)} className="font-mono text-xs uppercase tracking-widest lg:hidden">
             {open ? 'Close' : 'Menu'}
           </button>
         </nav>
@@ -51,7 +51,7 @@ export default function Nav() {
           >
             {links.map(([to, l], i) => (
               <motion.div key={to} initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 + i * 0.07, ease }}>
-                <Link to={to} className="font-display text-6xl leading-tight">{l}</Link>
+                <Link to={to} className="font-display text-5xl leading-tight md:text-6xl">{l}</Link>
               </motion.div>
             ))}
           </motion.div>

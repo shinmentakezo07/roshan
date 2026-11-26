@@ -16,6 +16,9 @@ import Experience from './pages/Experience'
 import Contact from './pages/Contact'
 import Resume from './pages/Resume'
 import NotFound from './pages/NotFound'
+import Writing, { Post } from './pages/Writing'
+import Uses from './pages/Uses'
+import Now from './pages/Now'
 
 function Shell() {
   const loc = useLocation()
@@ -40,6 +43,10 @@ function Shell() {
           <Route path="/experience" element={<Experience />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/resume" element={<Resume />} />
+          <Route path="/writing" element={<Writing />} />
+          <Route path="/writing/:slug" element={<Post />} />
+          <Route path="/uses" element={<Uses />} />
+          <Route path="/now" element={<Now />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AnimatePresence>

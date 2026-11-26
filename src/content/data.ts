@@ -92,7 +92,7 @@ export ANTHROPIC_BASE_URL=http://localhost:8000`,
   {
     slug: 'agentforge', title: 'AgentForge', year: '2025', role: 'Creator', color: '#ff5b1f',
     desc: 'Multi-agent orchestration framework with tool calling, memory and tracing.',
-    tags: ['Python', 'LLM', 'FastAPI'], metric: '3.2k ★ on GitHub',
+    tags: ['Python', 'LLM', 'FastAPI'], metric: '3.2k stars on GitHub',
     problem: 'Teams building agents kept rewriting the same glue: tool schemas, retries, memory and traces.',
     solution: 'A small typed framework with a planner/executor loop, pluggable memory and OpenTelemetry traces for every step.',
     results: ['Used by 40+ teams', 'Cut agent prototype time from weeks to days', 'Built-in eval harness'],

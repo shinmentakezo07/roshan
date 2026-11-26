@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
-import { Plus } from 'lucide-react'
+import { Plus, Sparkle } from 'lucide-react'
 import { experience } from '../content/data'
 import { Label, Page, Reveal, SplitReveal, TiltCard, ease } from '../components/anim'
 
@@ -40,7 +40,7 @@ export default function Experience() {
                           </div>
                         </div>
                         <ul className="space-y-3">
-                          {e.points.map((p) => <li key={p} className="flex gap-3"><span className="text-accent">✦</span>{p}</li>)}
+                          {e.points.map((p) => <li key={p} className="flex gap-3"><Sparkle className="mt-1 h-4 w-4 shrink-0 text-accent" />{p}</li>)}
                         </ul>
                       </div>
                     </motion.div>
